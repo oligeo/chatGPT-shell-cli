@@ -235,8 +235,12 @@ fi
 while $running; do
 
 	if [ -z "$pipe_mode_prompt" ]; then
-		echo -e "\nEnter a prompt:"
-		read prompt
+		if type -P rlwrap &> /dev/null; then
+			prompt=$(rlwrap -pYellow -S "[${USER}] " -H past_orders -o cat)
+		else
+			echo -e "\nEnter a prompt:"
+			read prompt
+		fi	
 	else
 		# set vars for pipe mode
 		prompt=${pipe_mode_prompt}
